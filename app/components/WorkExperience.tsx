@@ -8,6 +8,19 @@ export default function WorkExperience() {
     const [activeExperience, setActiveExperience] = useState(0);
     const experiences = [
         {
+            "title": "Freelance Full-Stack Software Engineer & Consultant",
+            "company": "Freelance",
+            "location": "Remote",
+            "period": "July 2024 – Present",
+            "details": [
+                "Hangouty Mobile App: Spearheaded the end-to-end development of Hangouty, a cross-platform mobile application facilitating spontaneous social meetups. Leveraged React Native and Expo to build a smooth, intuitive UI, integrated real-time notifications and analytics via GraphQL and Firebase, and implemented rigorous testing protocols to ensure robust performance and security.",
+                "Webpage Commenter Chrome Extension: Engineered a feature-rich Chrome extension enabling users to annotate and comment directly on webpages. Utilized modern JavaScript frameworks and the Chrome Extensions API to craft a responsive, user-friendly interface, while incorporating end-to-end testing with Jest and Cypress to maintain high-quality code standards.",
+                "Bespoke Client Projects: Delivered multiple custom web and mobile solutions across diverse industries, including enterprise dashboards and collaborative platforms. Employed full-stack technologies such as Next.js, Node.js, and NestJS for scalable backend integrations, and adopted agile methodologies to iterate rapidly based on stakeholder feedback.",
+                "DevOps & Automation Enhancements: Automated build, testing, and deployment workflows using Jenkins and GitHub Actions, significantly reducing time-to-market. Designed comprehensive test suites with Jest, Cypress, and Playwright that increased code coverage and ensured the seamless delivery of mission-critical features.",
+                "Collaborative & Strategic Consulting: Partnered with cross-functional teams to gather requirements, define technical roadmaps, and deliver secure, high-performance applications. Provided mentorship and strategic guidance on best practices in agile development and continuous integration, consistently exceeding client expectations."
+            ]
+        },
+        {
             title: "Software Engineer VI",
             company: "Intel Corporation",
             location: "Hillsboro, OR (Remote)",
