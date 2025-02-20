@@ -4,11 +4,11 @@ export default function Skills() {
     const skillCategories = [
         {
             name: "Programming Languages",
-            skills: ["JavaScript (ES6)", "TypeScript", "Python", "C++", "C", "Perl", "NodeJS", "PHP"]
+            skills: ["JavaScript (ES6+)", "TypeScript", "Python", "Golang", "C++", "C", "Perl", "NodeJS", "PHP"]
         },
         {
-            name: "Web Technologies",
-            skills: ["React", "React Native", "HTML5", "CSS3", "Ajax", "Bootstrap", "XML", "JSON"]
+            name: "Web & Mobile Technologies",
+            skills: ["React", "React Native", "HTML5", "CSS3", "Ajax", "Bootstrap", "XML", "JSON", "GWT", "Apache Tomcat"]
         },
         {
             name: "Databases",
@@ -20,19 +20,19 @@ export default function Skills() {
         },
         {
             name: "Testing & QA",
-            skills: ["Jest", "Cypress", "Playwright", "Pytest", "Selenium", "qTest"]
+            skills: ["Jest", "Cypress", "Playwright", "Pytest", "Selenium", "qTest", "Test Automation", "Performance Testing", "Regression Testing", "Stress Testing", "System Testing", "Exploratory Testing", "Root Cause Analysis", "Interoperability Testing"]
         },
         {
             name: "Networking",
-            skills: ["L2/3 Networks", "SDN", "OpenFlow", "Mininet", "Wireshark"]
+            skills: ["L2/3 Networks", "SDN", "OpenFlow", "Mininet", "Wireshark", "Switch Zoning", "Network Configuration"]
         },
         {
             name: "Security",
-            skills: ["Product Security Enhancement", "Security Development Lifecycle (SDL)", "Secure Coding Practices"]
+            skills: ["Product Security Enhancement", "Security Development Lifecycle (SDL)", "Secure Coding Practices", "TLS"]
         },
         {
             name: "Operating Systems",
-            skills: ["Linux (RHEL, SUSE, CentOS, Debian, Ubuntu, UEK)", "macOS", "Windows", "Windows Server"]
+            skills: ["Linux (RHEL, SUSE, CentOS, Debian, Ubuntu, UEK)", "macOS", "Windows", "Windows Server", "Element OS"]
         },
         {
             name: "Storage Systems",
@@ -40,23 +40,23 @@ export default function Skills() {
         },
         {
             name: "Virtualization",
-            skills: ["VMware", "Cloud Computing"]
+            skills: ["VMware", "Cloud Computing", "Virtual Testbeds"]
         },
         {
             name: "Project Management & Collaboration",
-            skills: ["JIRA", "Confluence", "GitLab", "Azure DevOps", "Agile", "Scrum", "Kanban", "XP", "SAFe"]
+            skills: ["JIRA", "Confluence", "GitLab", "Azure DevOps", "Agile", "Scrum", "Kanban", "XP", "SAFe", "Requirements Analysis", "User Story Analysis"]
         },
         {
             name: "Documentation",
-            skills: ["Root Cause Analysis", "Troubleshooting", "Technical Writing", "Markdown"]
+            skills: ["Root Cause Analysis", "Troubleshooting", "Technical Writing", "Markdown", "Product Documentation"]
         },
         {
             name: "Scripting",
-            skills: ["Bash", "PowerShell", "Shell Scripting"]
+            skills: ["Bash", "PowerShell", "Shell Scripting", "Python Scripting"]
         },
         {
             name: "Software Engineering",
-            skills: ["UML", "SDLC", "OOP", "Data Structures", "Algorithms", "System Design", "Microservices", "Distributed Systems"]
+            skills: ["UML", "SDLC", "OOP", "Data Structures", "Algorithms", "System Design", "Microservices", "Distributed Systems", "Full Stack Development", "Frontend Development", "Backend Development"]
         },
         {
             name: "IDEs & Tools",
@@ -64,7 +64,7 @@ export default function Skills() {
         },
         {
             name: "Other",
-            skills: ["Microsoft Office", "Interoperability Testing", "Element OS", "Active IQ"]
+            skills: ["Microsoft Office", "Interoperability Testing", "Element OS", "Active IQ", "Lab Maintenance", "Hardware Configuration"]
         }
     ];
 

@@ -15,7 +15,7 @@ export default function HeroSection() {
                 <h1 className="text-5xl font-bold mb-4 neon-text">Amr H. Metwaly</h1>
                 <h2 className="text-3xl mb-6 text-blue-300">Senior Software & QA Engineer</h2>
                 <p className="max-w-2xl mx-auto mb-8 text-gray-300">
-                    Hands-on senior Software & QA Engineer with solid experience in software development, testing, and quality assurance. Demonstrated expertise in Python, JavaScript (ES6), and TypeScript.
+                    Dynamic Senior Software & QA Engineer with deep-rooted expertise in algorithms, data structures, and system design. I excel in applying core design principles to architect robust, scalable, and distributed systems, leveraging modern software architectures and cloud technologies. My comprehensive approach integrates full-stack development with rigorous hardware/software testing and automation, ensuring every solution is both innovative and reliable.
                 </p>
                 <div className="flex justify-center space-x-4">
                     <Button variant="outline" asChild className="bg-blue-900 hover:bg-blue-800 text-white hover-scale">

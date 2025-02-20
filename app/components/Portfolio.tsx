@@ -34,6 +34,30 @@ export default function Portfolio() {
             description: "A series of books exploring blockchain technology, DeFi, IoT, and smart contracts.",
             technologies: "Writing, Research, Blockchain, DeFi, IoT",
             link: "https://www.amazon.com/dp/B08Z6ZH7WM"
+        },
+        {
+            "title": "Webpage Commenter Extension",
+            "subtitle": "Enhance your browsing experience with seamless commenting",
+            "image": "/images/webpage-commenter.png",
+            "description": "A browser extension that allows users to add comments to any webpage, facilitating discussions and note-taking directly in the browser.",
+            "technologies": "JavaScript, HTML, CSS, Firebase, Web Extensions",
+            "link": "#"
+        },
+        {
+            "title": "Horizon Personal Budgeter",
+            "subtitle": "Your Personal Finance Companion",
+            "image": "/images/horizon-budgeter-logo.webp",
+            "description": "Horizon Personal Budgeter is a comprehensive financial management application designed to help users track their income, expenses, and overall financial health. The app features an intuitive dashboard, detailed transaction tracking, card management, and customizable settings. With its sleek, modern interface and responsive design, Horizon Personal Budgeter makes personal finance management accessible and engaging.",
+            "technologies": "React, Next.js, TypeScript, Tailwind CSS, Firebase Authentication, Framer Motion, React Icons, Lucide React, Shadcn UI Components",
+            "link": "https://horizon-personal-budgeting.vercel.app/"
+        },
+        {
+            "title": "Car Listing Scraper",
+            "subtitle": "Efficient Web Scraping for Car Dealerships",
+            "image": "/images/car-list-mate-logo.png",
+            "description": "A powerful web scraping tool designed to extract car listings from various dealership websites. This Chrome extension navigates through multiple pages, collecting detailed information about each vehicle, including make, model, year, price, and mileage. It features adaptive scraping techniques to handle different website structures, ensuring comprehensive data collection. It collects that information into a copyable ad for your social media marketplace. These ads can further be enhanced by ChatGPT 3.5 Turbo.",
+            "technologies": "TypeScript, Webpack, Chrome Extension API, Regular Expressions",
+            "link": "https://github.com/yourusername/car-listing-scraper"
         }
     ]
 

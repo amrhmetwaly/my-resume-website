@@ -33,7 +33,7 @@ export default function Home() {
             </main>
             <footer className="py-6 text-center text-gray-300 bg-black/50 backdrop-blur-sm">
                 <Separator className="mb-6" />
-                <p className="mb-4">&copy; 2024 Amr H. Metwaly. All rights reserved.</p>
+                <p className="mb-4">&copy; 2025 Amr H. Metwaly. All rights reserved.</p>
                 <div>
                     <p className="text-sm mb-2">Technologies used in this portfolio:</p>
                     <div className="flex flex-wrap justify-center gap-2">
