@@ -5,15 +5,15 @@ import { Card, CardContent } from "@/components/ui/card"
 import { TypewriterEffect } from './TypewriterEffect'
 
 export default function WorkExperience() {
-    const [activeExperience, setActiveExperience] = useState(0);
+    const [activeExperience, setActiveExperience] = useState(-1);
     const experiences = [
         {
-            "title": "Freelance Full-Stack Software Engineer & Consultant",
-            "company": "Freelance",
-            "location": "Remote",
-            "period": "July 2024 – Present",
-            "details": [
-                "Hangouty Mobile App: Spearheaded the end-to-end development of Hangouty, a cross-platform mobile application facilitating spontaneous social meetups. Leveraged React Native and Expo to build a smooth, intuitive UI, integrated real-time notifications and analytics via GraphQL and Firebase, and implemented rigorous testing protocols to ensure robust performance and security.",
+            title: "Freelance Full-Stack Software Engineer & Consultant",
+            company: "Freelancer.com",
+            location: "Remote, USA",
+            period: "July 2024 – Present",
+            details: [
+                "Hangouty Mobile App: Spearheaded the end-to-end development of Hangouty, a cross-platform mobile application that facilitates spontaneous social meetups. Leveraged React Native and Expo to build a smooth, intuitive UI, integrated real-time notifications and analytics via a Golang RestAPI running in a docker container and orchestrated by K8s on AWS, and implemented rigorous testing protocols to ensure robust performance and security.",
                 "Webpage Commenter Chrome Extension: Engineered a feature-rich Chrome extension enabling users to annotate and comment directly on webpages. Utilized modern JavaScript frameworks and the Chrome Extensions API to craft a responsive, user-friendly interface, while incorporating end-to-end testing with Jest and Cypress to maintain high-quality code standards.",
                 "Bespoke Client Projects: Delivered multiple custom web and mobile solutions across diverse industries, including enterprise dashboards and collaborative platforms. Employed full-stack technologies such as Next.js, Node.js, and NestJS for scalable backend integrations, and adopted agile methodologies to iterate rapidly based on stakeholder feedback.",
                 "DevOps & Automation Enhancements: Automated build, testing, and deployment workflows using Jenkins and GitHub Actions, significantly reducing time-to-market. Designed comprehensive test suites with Jest, Cypress, and Playwright that increased code coverage and ensured the seamless delivery of mission-critical features.",
@@ -82,7 +82,7 @@ export default function WorkExperience() {
             details: [
                 "Ran predefined automated and manual test cases on different E-Series storage configurations testing for interoperability.",
                 "Built storage configurations from scratch and set up all layers for testing, including OS installation, network configuration, switch zoning, cabling, swapping failed components, and configuring storage side arrays.",
-                "Scripted in Bash and Python for an internally developed testing framework to minimize manual testing and configuration overhead.",
+                "Developed and maintained scripts in Bash (including variants such as csh, zsh and ksh) and Python (2/3) to streamline and automate an internally developed testing framework. This minimized manual testing and configuration overhead improved efficiency, and enhanced reproducibility across multiple testing environments.",
                 "Documented defects, debugged and analyzed log messages on different hardware components to pinpoint root causes."
             ]
         }
@@ -98,13 +98,13 @@ export default function WorkExperience() {
                         <p className="text-gray-300">{exp.company}, {exp.location} | {exp.period}</p>
                         <ul className="list-disc list-inside mt-2 text-gray-300">
                             {exp.details.map((detail, detailIndex) => (
-                                <li key={detailIndex}>
-                                    {index === activeExperience ? (
+                                index === activeExperience ? (
+                                    <li key={detailIndex} className="mb-2">
                                         <TypewriterEffect text={detail} speed={10} />
-                                    ) : (
-                                        detail
-                                    )}
-                                </li>
+                                    </li>
+                                ) : (
+                                    <li key={detailIndex} className="mb-2">{detail}</li>
+                                )
                             ))}
                         </ul>
                     </CardContent>

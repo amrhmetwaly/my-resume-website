@@ -1,5 +1,5 @@
 {
-  "app\\components\\HeroSection.tsx -> ./ThreeDArt": {
+  "app/components/HeroSection.tsx -> ./ThreeDArt": {
     "id": 4256,
     "files": [
       "static/chunks/b536a0f1.f9222d1147c9a387.js",
@@ -7,11 +7,11 @@
       "static/chunks/256.4e9b926895f1abb0.js"
     ]
   },
-  "node_modules\\@react-three\\drei\\core\\VideoTexture.js -> hls.js": {
+  "node_modules/@react-three/drei/core/VideoTexture.js -> hls.js": {
     "id": null,
     "files": []
   },
-  "node_modules\\@react-three\\drei\\web\\FaceLandmarker.js -> @mediapipe/tasks-vision": {
+  "node_modules/@react-three/drei/web/FaceLandmarker.js -> @mediapipe/tasks-vision": {
     "id": null,
     "files": []
   }

@@ -10,7 +10,7 @@ export default function Education() {
                     <div className="flex items-center space-x-4">
                         <div className="flex-grow">
                             <h4 className="text-xl font-semibold">Bachelor of Science in Computer Engineering (Cum Laude)</h4>
-                            <p className="text-gray-300">Wichita State University, Wichita, KS, USA | May 2020</p>
+                            <p className="text-gray-300">Wichita State University, Wichita, KS, USA | May 2020 | GPA: 3.5/4.00</p>
                         </div>
                         <Image
                             src="/images/wushock-mascot.png"
