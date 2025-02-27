@@ -1,8 +1,19 @@
-import { Card, CardContent } from "@/components/ui/card"
-import Image from 'next/image'
+import { useState } from "react";
+import Image from 'next/image';
+import { motion } from "framer-motion";
+
+// Define the project interface
+interface Project {
+    title: string;
+    subtitle: string;
+    image: string;
+    description: string;
+    technologies: string;
+    link: string;
+}
 
 export default function Portfolio() {
-    const projects = [
+    const projects: Project[] = [
         {
             title: "FearFlix",
             subtitle: "Your Spooky Movie Companion",
@@ -63,25 +74,92 @@ export default function Portfolio() {
 
     return (
         <section id="portfolio" className="mb-12 bg-gray-900/80 p-6 rounded-lg backdrop-blur-sm gradient-border">
-            <h3 className="text-2xl font-semibold mb-4 text-blue-400">Portfolio</h3>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <h3 className="text-2xl font-semibold mb-6 text-blue-400">Portfolio</h3>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => (
-                    <Card key={index} className="bg-blue-900/30 text-white hover-scale">
-                        <CardContent className="pt-6">
-                            {project.title === "FearFlix" ? (
-                                <div className="text-center text-8xl mb-4">👻</div>
-                            ) : (
-                                <Image src={project.image} alt={project.title} width={300} height={200} className="w-full h-48 object-cover mb-4 rounded" />
-                            )}
-                            <h4 className="text-xl font-semibold text-green-300">{project.title}</h4>
-                            <p className="text-sm text-blue-300 mb-2">{project.subtitle}</p>
-                            <p className="text-gray-300 mb-2">{project.description}</p>
-                            <p className="text-sm text-gray-400"><strong>Technologies:</strong> {project.technologies}</p>
-                            <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 mt-2 inline-block hover-scale">Learn More</a>
-                        </CardContent>
-                    </Card>
+                    <ProjectCard key={index} project={project} />
                 ))}
             </div>
         </section>
     )
+}
+
+// Flip Card Component
+function ProjectCard({ project }: { project: Project }) {
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    return (
+        <div 
+            className="flip-card-container w-full h-[360px] perspective-1000" 
+            onMouseEnter={() => setIsFlipped(true)}
+            onMouseLeave={() => setIsFlipped(false)}
+        >
+            <motion.div 
+                className="flip-card relative w-full h-full"
+                initial={false}
+                animate={{ rotateY: isFlipped ? 180 : 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                style={{ transformStyle: "preserve-3d" }}
+            >
+                {/* Front of Card */}
+                <div 
+                    className="flip-card-front absolute w-full h-full rounded-lg overflow-hidden backface-hidden bg-blue-900/30 border border-blue-500/30 shadow-lg"
+                    style={{ backfaceVisibility: "hidden" }}
+                >
+                    <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
+                        {project.title === "FearFlix" ? (
+                            <div className="text-center text-9xl mb-4 glow-effect">👻</div>
+                        ) : (
+                            <div className="w-full h-[200px] relative mb-4">
+                                <Image 
+                                    src={project.image} 
+                                    alt={project.title} 
+                                    fill
+                                    className="object-contain rounded"
+                                />
+                            </div>
+                        )}
+                        <h4 className="text-2xl font-bold text-green-300 text-center mt-auto">{project.title}</h4>
+                        <p className="text-sm text-blue-300 mb-2 text-center">{project.subtitle}</p>
+                        
+                        {/* Decorative elements */}
+                        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                            <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-green-400/40 rounded-tl-lg"></div>
+                            <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-blue-400/40 rounded-br-lg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Back of Card */}
+                <div 
+                    className="flip-card-back absolute w-full h-full rounded-lg overflow-hidden backface-hidden bg-gradient-to-br from-blue-900/50 to-blue-950/80 border border-blue-500/30 shadow-lg p-6 flex flex-col"
+                    style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+                >
+                    <h4 className="text-xl font-bold text-green-300 mb-1">{project.title}</h4>
+                    <p className="text-sm text-blue-300 mb-3">{project.subtitle}</p>
+                    
+                    <div className="flex-grow overflow-auto text-sm scrollbar-thin">
+                        <p className="text-gray-200 mb-3">{project.description}</p>
+                        <div className="mb-3">
+                            <span className="text-xs uppercase tracking-wide text-blue-400 font-semibold">Technologies</span>
+                            <p className="text-gray-300">{project.technologies}</p>
+                        </div>
+                    </div>
+                    
+                    <a 
+                        href={project.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="mt-auto text-center py-2 px-4 bg-blue-600/40 hover:bg-blue-600/60 rounded-md text-white transition-colors duration-300 border border-blue-500/50"
+                    >
+                        View Project
+                    </a>
+                    
+                    {/* Decorative elements */}
+                    <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-green-400/40 rounded-tr-lg"></div>
+                    <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-blue-400/40 rounded-bl-lg"></div>
+                </div>
+            </motion.div>
+        </div>
+    );
 }

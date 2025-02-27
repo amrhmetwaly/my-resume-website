@@ -1,9 +1,9 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 interface Recommendation {
     name: string;
@@ -105,49 +105,258 @@ const recommendations: Recommendation[] = [
     }
 ];
 
-function RecommendationCard({ recommendation }: { recommendation: Recommendation }) {
+export default function LinkedInRecommendations() {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [direction, setDirection] = useState(0);
     const [isExpanded, setIsExpanded] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [autoplayPaused, setAutoplayPaused] = useState(false);
+
+    // Handle mouse move for the glow effect
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (containerRef.current) {
+                const rect = containerRef.current.getBoundingClientRect();
+                setMousePosition({
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                });
+            }
+        };
+
+        const container = containerRef.current;
+        if (container) {
+            container.addEventListener('mousemove', handleMouseMove);
+        }
+
+        return () => {
+            if (container) {
+                container.removeEventListener('mousemove', handleMouseMove);
+            }
+        };
+    }, []);
+
+    // Autoplay functionality
+    useEffect(() => {
+        if (autoplayPaused) return;
+        
+        const interval = setInterval(() => {
+            handleNextSlide();
+        }, 8000);
+        
+        return () => clearInterval(interval);
+    }, [activeIndex, autoplayPaused]);
+
+    // Fixed function names and added event parameter
+    const handleNextSlide = (e?: React.MouseEvent) => {
+        // Stop event propagation if event exists
+        if (e) {
+            e.stopPropagation();
+        }
+        
+        setDirection(1);
+        setActiveIndex((prev) => (prev === recommendations.length - 1 ? 0 : prev + 1));
+    };
+
+    const handlePrevSlide = (e?: React.MouseEvent) => {
+        // Stop event propagation if event exists
+        if (e) {
+            e.stopPropagation();
+        }
+        
+        setDirection(-1);
+        setActiveIndex((prev) => (prev === 0 ? recommendations.length - 1 : prev - 1));
+    };
+
+    const goToSlide = (index: number) => {
+        setDirection(index > activeIndex ? 1 : -1);
+        setActiveIndex(index);
+    };
+
+    const activeRecommendation = recommendations[activeIndex];
+    
+    // Create excerpt of the content
+    const getExcerpt = (content: string, maxLength = 150) => {
+        if (content.length <= maxLength) return content;
+        return content.substring(0, maxLength).trim() + '...';
+    };
 
     return (
-        <Card className="bg-gray-800/50 text-white mb-4 overflow-hidden transition-all duration-300 ease-in-out hover:bg-gray-700/50">
-            <CardContent className="pt-6">
-                <div className="flex items-start space-x-4">
-                    <Avatar className="w-12 h-12">
-                        <AvatarImage src={recommendation.avatarSrc} alt={recommendation.name} />
-                        <AvatarFallback>{recommendation.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-grow">
-                        <h4 className="font-semibold text-blue-300">{recommendation.name}</h4>
-                        <p className="text-sm text-gray-300">{recommendation.title}</p>
-                        <p className="text-xs text-gray-400 mb-2">{recommendation.date}, {recommendation.relationship}</p>
-                        <div className={`mt-2 text-gray-300 ${isExpanded ? '' : 'line-clamp-3'}`}>
-                            {recommendation.content}
-                        </div>
-                        <button
-                            onClick={() => setIsExpanded(!isExpanded)}
-                            className="mt-2 text-blue-400 hover:text-blue-300 flex items-center transition-colors duration-200"
+        <section 
+            id="recommendations" 
+            className="relative mb-12 overflow-hidden rounded-xl"
+            ref={containerRef}
+            onMouseEnter={() => setAutoplayPaused(true)}
+            onMouseLeave={() => setAutoplayPaused(false)}
+        >
+            {/* Glow Effect */}
+            <div 
+                className="absolute pointer-events-none"
+                style={{
+                    left: `${mousePosition.x}px`,
+                    top: `${mousePosition.y}px`,
+                    width: '400px',
+                    height: '400px',
+                    background: 'radial-gradient(circle, rgba(57, 255, 20, 0.15) 0%, rgba(57, 255, 20, 0) 70%)',
+                    borderRadius: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: '1',
+                }}
+            />
+
+            {/* Main Content Container */}
+            <div className="relative z-10 bg-gradient-to-br from-gray-900/90 to-gray-800/30 backdrop-blur-lg p-8 rounded-xl shadow-2xl border border-green-500/20">
+                {/* Header with animated lines */}
+                <div className="mb-10 relative">
+                    <div className="absolute left-0 top-1/2 h-px w-1/4 bg-gradient-to-r from-transparent to-green-500/70"></div>
+                    <h3 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300 py-2">
+                        What People Say
+                    </h3>
+                    <div className="absolute right-0 top-1/2 h-px w-1/4 bg-gradient-to-l from-transparent to-green-500/70"></div>
+                </div>
+
+                {/* Testimonial Carousel */}
+                <div className="mx-auto max-w-4xl relative">
+                    <AnimatePresence mode="wait" initial={false} custom={direction}>
+                        <motion.div
+                            key={activeIndex}
+                            custom={direction}
+                            initial={{ 
+                                opacity: 0,
+                                x: direction === 1 ? 100 : -100 
+                            }}
+                            animate={{ 
+                                opacity: 1,
+                                x: 0,
+                                transition: { 
+                                    type: "spring", 
+                                    stiffness: 300, 
+                                    damping: 30 
+                                } 
+                            }}
+                            exit={{ 
+                                opacity: 0,
+                                x: direction === 1 ? -100 : 100,
+                                transition: { duration: 0.2 } 
+                            }}
+                            className="w-full"
                         >
-                            {isExpanded ? (
-                                <>View less <ChevronUp className="ml-1 h-4 w-4" /></>
-                            ) : (
-                                <>View more <ChevronDown className="ml-1 h-4 w-4" /></>
-                            )}
-                        </button>
+                            <div className="relative flex flex-col items-center">
+                                {/* Quote icon */}
+                                <div className="absolute -top-6 left-0 text-green-500/30">
+                                    <Quote size={60} />
+                                </div>
+                                
+                                {/* Avatar with glow */}
+                                <div className="relative mb-6 group">
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-500/50 to-emerald-300/50 blur-lg transform group-hover:scale-110 transition-all duration-500"></div>
+                                    <Avatar className="w-20 h-20 border-2 border-green-500/50 relative z-10">
+                                        <AvatarImage src={activeRecommendation.avatarSrc} alt={activeRecommendation.name} />
+                                        <AvatarFallback className="bg-gray-800 text-green-400 text-lg">
+                                            {activeRecommendation.name.split(' ').map(n => n[0]).join('')}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                </div>
+                                
+                                {/* Content */}
+                                <div className="text-center">
+                                    <motion.h4 
+                                        className="text-xl font-bold text-green-400 mb-1"
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0, transition: { delay: 0.2 } }}
+                                    >
+                                        {activeRecommendation.name}
+                                    </motion.h4>
+                                    
+                                    <motion.p 
+                                        className="text-sm text-gray-300 mb-1"
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0, transition: { delay: 0.3 } }}
+                                    >
+                                        {activeRecommendation.title}
+                                    </motion.p>
+                                    
+                                    <motion.p 
+                                        className="text-xs text-gray-400 mb-6"
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0, transition: { delay: 0.4 } }}
+                                    >
+                                        {activeRecommendation.date} • {activeRecommendation.relationship}
+                                    </motion.p>
+                                    
+                                    <motion.div 
+                                        className="relative max-w-2xl mx-auto text-gray-200 leading-relaxed"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1, transition: { delay: 0.5 } }}
+                                    >
+                                        <div className={`transition-all duration-300 ${isExpanded ? 'max-h-[1000px]' : 'max-h-[120px] overflow-hidden'}`}>
+                                            <p className="relative z-10">
+                                                {isExpanded 
+                                                    ? activeRecommendation.content 
+                                                    : getExcerpt(activeRecommendation.content)
+                                                }
+                                            </p>
+                                            
+                                            {!isExpanded && (
+                                                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-900/90 to-transparent pointer-events-none"></div>
+                                            )}
+                                        </div>
+                                        
+                                        <button
+                                            onClick={() => setIsExpanded(!isExpanded)}
+                                            className="mt-4 px-4 py-1 rounded-full text-sm bg-green-500/20 text-green-400 hover:bg-green-500/30 hover:text-green-300 transition-all duration-300 border border-green-500/30 shadow-md hover:shadow-green-500/20 z-20 relative"
+                                        >
+                                            {isExpanded ? 'Show Less' : 'Read Full Recommendation'}
+                                        </button>
+                                    </motion.div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+                    
+                    {/* Large clickable navigation arrows (outside of content) */}
+                    <button 
+                        onClick={handlePrevSlide}
+                        className="absolute left-0 top-1/2 transform -translate-y-1/2 p-4 z-30 hover:scale-110 transition-transform duration-200"
+                        aria-label="Previous testimonial"
+                    >
+                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-800/80 text-green-400 hover:bg-green-500/30 hover:text-white transition-all duration-300 focus:outline-none shadow-lg">
+                            <ChevronLeft size={24} />
+                        </div>
+                    </button>
+                    
+                    <button 
+                        onClick={handleNextSlide}
+                        className="absolute right-0 top-1/2 transform -translate-y-1/2 p-4 z-30 hover:scale-110 transition-transform duration-200"
+                        aria-label="Next testimonial"
+                    >
+                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-800/80 text-green-400 hover:bg-green-500/30 hover:text-white transition-all duration-300 focus:outline-none shadow-lg">
+                            <ChevronRight size={24} />
+                        </div>
+                    </button>
+                    
+                    {/* Indicator Dots */}
+                    <div className="flex justify-center space-x-2 items-center mt-8 z-20 relative">
+                        {recommendations.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => goToSlide(index)}
+                                className={`h-2 rounded-full transition-all duration-300 ${
+                                    index === activeIndex 
+                                        ? 'w-8 bg-green-500' 
+                                        : 'w-2 bg-gray-600 hover:bg-green-500/50'
+                                }`}
+                                aria-label={`Go to testimonial ${index + 1}`}
+                            />
+                        ))}
                     </div>
                 </div>
-            </CardContent>
-        </Card>
-    );
-}
-
-export default function LinkedInRecommendations() {
-    return (
-        <section id="recommendations" className="mb-12 bg-gray-900/80 p-6 rounded-lg backdrop-blur-sm gradient-border">
-            <h3 className="text-2xl font-semibold mb-4 text-green-400">Praise</h3>
-            <div className="space-y-4">
-                {recommendations.map((recommendation, index) => (
-                    <RecommendationCard key={index} recommendation={recommendation} />
-                ))}
+                
+                {/* Decorative elements */}
+                <div className="absolute top-0 left-0 w-32 h-32 bg-green-500/10 rounded-full blur-xl"></div>
+                <div className="absolute bottom-0 right-0 w-40 h-40 bg-emerald-500/10 rounded-full blur-xl"></div>
+                <div className="absolute top-1/3 right-10 w-20 h-20 bg-green-500/10 rounded-full blur-xl"></div>
             </div>
         </section>
     );
