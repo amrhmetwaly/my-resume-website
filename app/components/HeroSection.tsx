@@ -1,14 +1,21 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Github, Linkedin, Mail, Code, Server, Database } from "lucide-react"
+import { Github, Linkedin, Mail, Code, Server, Database, ChevronDown } from "lucide-react"
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
+import { useRef } from 'react'
 
 const ThreeDArt = dynamic(() => import('./ThreeDArt'), { ssr: false })
 
 export default function HeroSection() {
+    const contentSectionRef = useRef<HTMLDivElement>(null);
+    
+    const scrollToContent = () => {
+        contentSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+    
     return (
         <section id="home" className="relative flex flex-col items-center overflow-hidden">
             {/* Full height 3D art container - now without any overlaid content */}
@@ -18,21 +25,45 @@ export default function HeroSection() {
                     <ThreeDArt />
                 </div>
                 
-                {/* Scroll indicator */}
+                {/* Desktop scroll indicator */}
                 <motion.div 
-                    className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                    className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block cursor-pointer"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1, y: [0, 10, 0] }}
                     transition={{ duration: 1.5, delay: 1, repeat: Infinity }}
+                    onClick={scrollToContent}
+                    aria-label="Scroll to content"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => e.key === 'Enter' && scrollToContent()}
                 >
-                    <div className="w-8 h-12 border-2 border-blue-400 rounded-full flex justify-center">
+                    <div className="w-8 h-12 border-2 border-blue-400 rounded-full flex justify-center hover:border-blue-300 hover:scale-105 transition-all">
                         <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 animate-pulse" />
+                    </div>
+                </motion.div>
+
+                {/* Mobile scroll arrow - more prominent and with adaptive positioning */}
+                <motion.div
+                    className="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center md:hidden cursor-pointer z-10"
+                    style={{ bottom: 'max(8vh, 3rem)' }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1, y: [0, 10, 0] }}
+                    transition={{ duration: 1.5, delay: 0.5, repeat: Infinity }}
+                    onClick={scrollToContent}
+                    aria-label="Scroll to content"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => e.key === 'Enter' && scrollToContent()}
+                >
+                    <p className="text-blue-300 mb-2 text-sm font-medium">Scroll Down</p>
+                    <div className="p-2 bg-blue-500/30 backdrop-blur-sm rounded-full border border-blue-400/50 shadow-lg shadow-blue-500/20 hover:bg-blue-500/40 hover:scale-110 active:scale-95 transition-all">
+                        <ChevronDown className="h-6 w-6 text-blue-300" />
                     </div>
                 </motion.div>
             </div>
             
             {/* Name and contact section - now moved below the 3D art */}
-            <div className="w-full bg-gradient-to-b from-gray-900/95 to-blue-900/90 py-16 px-6">
+            <div ref={contentSectionRef} className="w-full bg-gradient-to-b from-gray-900/95 to-blue-900/90 py-16 px-6">
                 <div className="max-w-5xl mx-auto">
                     {/* Name and title */}
                     <motion.div

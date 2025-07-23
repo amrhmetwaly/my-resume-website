@@ -15,6 +15,46 @@ interface Project {
 export default function Portfolio() {
     const projects: Project[] = [
         {
+            "title": "BidMyBite",
+            "subtitle": "AI-Powered Catering Marketplace & Event Management Platform",
+            "image": "/images/bidmybite-logo.png",
+            "description": "TheGrubHubby revolutionizes event catering with an intelligent marketplace that connects event organizers with professional caterers through competitive bidding. Features AI-powered smart matching that analyzes event requirements to instantly connect users with the most suitable caterers in their area, comprehensive communication hub with real-time messaging, file sharing, and video calls, and verified reviews system with photo verification. The platform includes advanced admin dashboard for managing users, caterers, events, and analytics, integrated payment processing, and comprehensive event management tools. Perfect for wedding planners, corporate event managers, and individuals seeking professional catering services with data-driven matching and seamless coordination.",
+            "technologies": "Next.js, TypeScript, React, Tailwind CSS, Firebase, Firestore, Framer Motion, Radix UI, Vercel Analytics, Google AdSense, PWA, Vercel",
+            "link": "https://bidmybite.com"
+        },
+        {
+            "title": "GradeSwiftly",
+            "subtitle": "AI-Powered Trading Card Analysis & Marketplace Integration",
+            "image": "/images/gradeswiftly-logo.png",
+            "description": "GradeSwiftly revolutionizes trading card collecting with AI-driven analysis for graded cards. Upload images of your PSA-graded cards or enter certificate numbers to get instant market valuations, professionally optimized listing titles and descriptions, and seamless export capabilities to eBay and other marketplaces. Features advanced OCR technology for automatic card detail extraction, real-time pricing data from multiple sources, and batch processing for large collections. Perfect for collectors, dealers, and enthusiasts looking to maximize their card values with data-driven insights.",
+            "technologies": "Next.js, TypeScript, React, Tailwind CSS, Stripe, Puppeteer, Tesseract.js OCR, Vercel, Radix UI, Framer Motion",
+            "link": "https://gradeswiftly.com"
+        },
+        {
+            "title": "Hangouty",
+            "subtitle": "AI-Powered Social Event Planner",
+            "image": "/images/hangouty-logo.png",
+            "description": "Hangouty revolutionizes social event planning with AI-driven recommendations tailored to your mood, preferences, and location. Discover unique venues, effortlessly coordinate with friends, and filter activities to perfectly match your vibe. Hangouty makes planning enjoyable by delivering personalized hangout experiences, whether you're looking for relaxed meetups, energetic adventures, or memorable city explorations.",
+            "technologies": "React Native, Expo, Next.js, Golang, Kubernetes, Docker, AWS, GPT",
+            "link": "https://hangouty.com"
+        },
+        {
+            "title": "iLearned AI",
+            "subtitle": "AI-Powered Personalized Learning Platform",
+            "image": "/images/ilearned-ai-logo.jpeg",
+            "description": "iLearned AI transforms the learning experience with intelligent, personalized education powered by advanced AI technology. Create custom learning paths, get instant explanations on complex topics, and receive AI-generated quizzes and assessments tailored to your learning style. Features interactive chat-based tutoring, progress tracking with detailed analytics, and adaptive content delivery that evolves with your understanding. The platform supports multiple learning formats including visual, auditory, and kinesthetic approaches, making education accessible and engaging for learners of all backgrounds. Perfect for students, professionals, and lifelong learners seeking efficient, personalized knowledge acquisition with measurable progress insights.",
+            "technologies": "Next.js, TypeScript, React, OpenAI API, AI SDK, Tailwind CSS, Radix UI, Framer Motion, React Hook Form, Recharts, Vercel",
+            "link": "https://ilearned.ai"
+        },
+        {
+            "title": "Webpage Commenter Extension",
+            "subtitle": "Enhance your browsing experience with seamless commenting",
+            "image": "/images/webpage-commenter.png",
+            "description": "A browser extension that allows users to add comments to any webpage, facilitating discussions and note-taking directly in the browser.",
+            "technologies": "JavaScript, HTML, CSS, Firebase, Web Extensions",
+            "link": "https://webpagecommenter.com"
+        },
+        {
             title: "FearFlix",
             subtitle: "Your Spooky Movie Companion",
             image: "/images/ghost-emoji.png",
@@ -47,14 +87,6 @@ export default function Portfolio() {
             link: "https://www.amazon.com/dp/B08Z6ZH7WM"
         },
         {
-            "title": "Webpage Commenter Extension",
-            "subtitle": "Enhance your browsing experience with seamless commenting",
-            "image": "/images/webpage-commenter.png",
-            "description": "A browser extension that allows users to add comments to any webpage, facilitating discussions and note-taking directly in the browser.",
-            "technologies": "JavaScript, HTML, CSS, Firebase, Web Extensions",
-            "link": "#"
-        },
-        {
             "title": "Horizon Personal Budgeter",
             "subtitle": "Your Personal Finance Companion",
             "image": "/images/horizon-budgeter-logo.webp",
@@ -68,8 +100,9 @@ export default function Portfolio() {
             "image": "/images/car-list-mate-logo.png",
             "description": "A powerful web scraping tool designed to extract car listings from various dealership websites. This Chrome extension navigates through multiple pages, collecting detailed information about each vehicle, including make, model, year, price, and mileage. It features adaptive scraping techniques to handle different website structures, ensuring comprehensive data collection. It collects that information into a copyable ad for your social media marketplace. These ads can further be enhanced by ChatGPT 3.5 Turbo.",
             "technologies": "TypeScript, Webpack, Chrome Extension API, Regular Expressions",
-            "link": "https://github.com/yourusername/car-listing-scraper"
+            "link": "#"
         }
+        
     ]
 
     return (

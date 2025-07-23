@@ -247,10 +247,9 @@ function CircuitPath({ points, width = 0.05, height = 0.02, color = "#4fc3f7" }:
   )
 }
 
-// New component for the favicon loader in 3D scene
+// New component for the logo loader in 3D scene - replaced favicon with a simple cube
 function FaviconLoader({ position = [0, 0, 0], scale = 1 }) {
   const ref = useRef<THREE.Group>(null)
-  const textureMap = useTexture('/favicon.ico')
   
   useFrame(({ clock }) => {
     if (ref.current) {
@@ -264,7 +263,13 @@ function FaviconLoader({ position = [0, 0, 0], scale = 1 }) {
   return (
     <group ref={ref} position={new THREE.Vector3(...position)}>
       <Box args={[1, 1, 1]} position={[0, 0, 0]}>
-        <meshStandardMaterial map={textureMap} emissiveMap={textureMap} emissive="#ffffff" emissiveIntensity={0.5} />
+        <meshStandardMaterial 
+          color="#0070f3" 
+          emissive="#0070f3" 
+          emissiveIntensity={0.5}
+          metalness={0.8}
+          roughness={0.2} 
+        />
       </Box>
       <Sparkles count={20} scale={3} size={0.4} speed={0.3} opacity={0.2} color="#88ccff" />
     </group>
@@ -429,8 +434,40 @@ function SplashScene() {
 export default function SplashScreen({ onComplete }: SplashScreenProps) {
   const [progress, setProgress] = useState(0)
   const [show, setShow] = useState(true)
-  const [visibleText, setVisibleText] = useState("")
+  const [text, setText] = useState("")
+  const [hasWebGL, setHasWebGL] = useState(true)
   const fullText = "INITIALIZING PORTFOLIO EXPERIENCE"
+  const visibleText = text
+  
+  // Add state for favicon image error
+  const [faviconError, setFaviconError] = useState(false);
+  
+  // Check for WebGL support
+  useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas')
+      const hasWebGL = !!(
+        window.WebGLRenderingContext && 
+        (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+      )
+      setHasWebGL(hasWebGL)
+      
+      // If no WebGL, still complete the loading sequence with a fallback
+      if (!hasWebGL) {
+        const timer = setTimeout(() => {
+          setProgress(100)
+          setTimeout(() => {
+            setShow(false)
+            if (onComplete) onComplete()
+          }, 1000)
+        }, 1500)
+        return () => clearTimeout(timer)
+      }
+    } catch (e) {
+      console.error("WebGL detection failed:", e)
+      setHasWebGL(false)
+    }
+  }, [onComplete])
   
   useEffect(() => {
     // Simulate loading
@@ -449,7 +486,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
     let currentIndex = 0
     const typeInterval = setInterval(() => {
       if (currentIndex <= fullText.length) {
-        setVisibleText(fullText.substring(0, currentIndex))
+        setText(fullText.substring(0, currentIndex))
         currentIndex++
       } else {
         clearInterval(typeInterval)
@@ -485,9 +522,26 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
           className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center"
         >
           <div className="w-full h-full relative">
-            <Canvas>
-              <SplashScene />
-            </Canvas>
+            {hasWebGL ? (
+              <Canvas
+                gl={{
+                  antialias: true,
+                  alpha: true,
+                  powerPreference: 'default',
+                  failIfMajorPerformanceCaveat: false
+                }}
+                dpr={[1, 1.5]}
+              >
+                <SplashScene />
+              </Canvas>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="text-center">
+                  <h1 className="text-2xl font-bold text-blue-400 mb-4">Portfolio Experience</h1>
+                  <p className="text-white">Loading in compatibility mode...</p>
+                </div>
+              </div>
+            )}
             
             <motion.div
               className="absolute bottom-12 left-0 right-0 mx-auto w-full max-w-md px-4 flex flex-col items-center z-10"
@@ -496,13 +550,18 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
               transition={{ delay: 0.5, duration: 0.8 }}
             >
               <div className="flex items-center justify-center mb-4">
-                <Image 
-                  src="/favicon.ico" 
-                  width={32} 
-                  height={32} 
-                  alt="Logo" 
-                  className={`mr-3 ${progress < 100 ? 'animate-pulse' : ''}`}
-                />
+                {!faviconError ? (
+                  <Image 
+                    src="/favicon.ico" 
+                    width={32} 
+                    height={32} 
+                    alt="Logo" 
+                    className={`mr-3 ${progress < 100 ? 'animate-pulse' : ''}`}
+                    onError={() => setFaviconError(true)}
+                  />
+                ) : (
+                  <div className={`w-8 h-8 bg-blue-500 rounded mr-3 ${progress < 100 ? 'animate-pulse' : ''}`} />
+                )}
                 <div className="text-blue-400 font-mono text-lg font-bold">
                   {visibleText}
                   <span className="animate-pulse">_</span>

@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  assetPrefix: "",
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -13,7 +14,7 @@ const nextConfig = {
       };
     }
     config.module.rules.push({
-      test: /\.(png|jpg|gif|svg)$/i,
+      test: /\.(png|jpg|gif|svg|ico)$/i,
       use: [
         {
           loader: "url-loader",

@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export": "next build && node copy-assets.js",
+    "deploy": "next build && node copy-assets.js && firebase deploy --only hosting",
+    "deploy:clean": "rm -rf export/ && npm run deploy",
     "start": "next start",
     "lint": "next lint"
   },

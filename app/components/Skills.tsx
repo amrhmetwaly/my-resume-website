@@ -28,7 +28,7 @@ export default function Skills() {
         {
             name: "AI & Machine Learning",
             icon: "🤖",
-            skills: ["OpenAI", "LLMs", "Grok", "Gemini", "Claude", "RAG", "LangChain", "LangGraph", "LangFuse", "LangChain Express", "LangFuse Express"]
+            skills: ["OpenAI", "LLMs", "Grok", "Gemini", "Claude", "RAG", "LangChain", "LangGraph", "LangGraph", "LangFlow"]
         },
         {
             name: "DevOps & Cloud",

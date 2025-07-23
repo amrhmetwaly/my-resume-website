@@ -356,6 +356,34 @@ function FallbackScene() {
 }
 
 export default function ThreeDArt() {
+  const [hasWebGL, setHasWebGL] = useState(true);
+  
+  // Check for WebGL support on client side
+  useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas');
+      const hasWebGL = !!(
+        window.WebGLRenderingContext && 
+        (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+      );
+      setHasWebGL(hasWebGL);
+    } catch (e) {
+      console.error("WebGL detection failed:", e);
+      setHasWebGL(false);
+    }
+  }, []);
+  
+  if (!hasWebGL) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-black/50 rounded-lg p-4">
+        <div className="text-center">
+          <p className="text-white text-lg mb-2">3D Experience Unavailable</p>
+          <p className="text-blue-300 text-sm">Your browser doesn't support WebGL</p>
+        </div>
+      </div>
+    );
+  }
+    
   return (
     <Canvas 
       style={{ 
@@ -371,10 +399,11 @@ export default function ThreeDArt() {
       gl={{ 
         antialias: true, 
         alpha: true, 
-        powerPreference: 'high-performance',
-        precision: 'highp'
+        powerPreference: 'default', // Changed from high-performance to default
+        precision: 'highp',
+        failIfMajorPerformanceCaveat: false // Be more forgiving of performance issues
       }}
-      dpr={[1, 2]} // Limit resolution to improve performance
+      dpr={[1, 1.5]} // Reduced from [1, 2] for better performance
     >
       <color attach="background" args={['#000']} />
       <fog attach="fog" args={['#000', 5, 20]} />

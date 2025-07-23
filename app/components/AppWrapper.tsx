@@ -3,6 +3,30 @@
 import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 
+// Safe storage utility to prevent errors
+const safeStorage = {
+  getItem: (key: string): string | null => {
+    try {
+      return typeof window !== 'undefined' ? localStorage.getItem(key) : null
+    } catch (error) {
+      console.warn('Local storage is not available:', error)
+      return null
+    }
+  },
+  setItem: (key: string, value: string): boolean => {
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(key, value)
+        return true
+      }
+      return false
+    } catch (error) {
+      console.warn('Local storage is not available:', error)
+      return false
+    }
+  }
+}
+
 // Dynamically import the SplashScreen to avoid SSR issues
 const SplashScreen = dynamic(() => import('./SplashScreen'), { ssr: false })
 
@@ -19,6 +43,7 @@ import Contact from './Contact'
 import LinkedInRecommendations from './LinkedInRecommendations'
 import { Separator } from "@/components/ui/separator"
 import Navbar from "./Navbar"
+import ErrorBoundary from "./ErrorBoundary"
 
 export default function AppWrapper() {
     const [loading, setLoading] = useState(true)
@@ -27,7 +52,8 @@ export default function AppWrapper() {
     
     const handleSplashComplete = () => {
         setLoading(false)
-        // Remove localStorage setting to ensure splash screen shows every time
+        // Use safe storage instead of direct localStorage access
+        safeStorage.setItem('visited', 'true')
     }
     
     const technologies = [
@@ -35,40 +61,37 @@ export default function AppWrapper() {
     ]
     
     return (
-        <>
+        <ErrorBoundary>
             {loading ? (
                 <SplashScreen onComplete={handleSplashComplete} />
             ) : (
-                <div className="min-h-screen text-white">
-                    <Navbar />
+                <>
                     <GalaxyBackground />
-                    <HeroSection />
-                    <main className="container mx-auto px-6 py-12 max-w-5xl">
+                    <Navbar />
+                    <main className="relative z-10">
+                        <HeroSection />
+                        <Separator className="my-8 bg-blue-800/30" />
                         <Biography />
+                        <Separator className="my-8 bg-blue-800/30" />
                         <Skills />
+                        <Separator className="my-8 bg-blue-800/30" />
                         <WorkExperience />
+                        <Separator className="my-8 bg-blue-800/30" />
                         <Portfolio />
+                        <Separator className="my-8 bg-blue-800/30" />
                         <Awards />
-                        <LinkedInRecommendations />
+                        <Separator className="my-8 bg-blue-800/30" />
                         <Education />
+                        <Separator className="my-8 bg-blue-800/30" />
+                        <LinkedInRecommendations />
+                        <Separator className="my-8 bg-blue-800/30" />
                         <Contact />
+                        <footer className="py-8 text-center text-xs text-gray-500">
+                            <p>Built with {technologies.join(", ")}</p>
+                        </footer>
                     </main>
-                    <footer className="py-6 text-center text-gray-300 bg-black/50 backdrop-blur-sm">
-                        <Separator className="mb-6" />
-                        <p className="mb-4">&copy; 2025 Amr H. Metwaly. All rights reserved.</p>
-                        <div>
-                            <p className="text-sm mb-2">Technologies used in this portfolio:</p>
-                            <div className="flex flex-wrap justify-center gap-2">
-                                {technologies.map((tech, index) => (
-                                    <span key={index} className="text-xs bg-blue-900/50 text-blue-200 px-2 py-1 rounded">
-                                        {tech}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    </footer>
-                </div>
+                </>
             )}
-        </>
+        </ErrorBoundary>
     )
 } 
